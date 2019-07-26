@@ -1,0 +1,18 @@
+{
+  "logs": {
+    "prefix": "config-follower",
+    "console": {
+      "active": true,
+      "level": "info",
+      "colorize": true
+    },
+    "file": {
+      "active": false
+    }
+  },
+  "services": {
+    "register": {
+      "url": "https://reg.rec.la"
+    }
+  }
+}
