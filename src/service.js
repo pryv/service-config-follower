@@ -8,9 +8,11 @@ const logger = require('./utils/logging').getLogger('service');
 
 class Service {
     name: string;
+    configPath: string;
 
-    constructor(name: string) {
+    constructor(name: string, configPath: string) {
       this.name = name;
+      this.configPath = configPath;
     }
 
     async process() {
@@ -41,7 +43,7 @@ class Service {
     }
 
     async pushSettings(config: Object): Promise<void> {
-      logger.debug('pushing '+this.name+' / conf = ' + JSON.stringify(config));
+      fs.writeFileSync(this.configPath, JSON.stringify(config, null, 2), {encoding: 'utf8'});
     }
 
     async startService(): Promise<void> {
