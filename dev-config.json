@@ -1,18 +1,22 @@
 {
-  "http": {
-    "port": 7000,
-    "ip": "127.0.0.1"
-  },
   "logs": {
     "prefix": "config-follower",
     "console": {
       "active": true,
-      "level": "debug",
+      "level": "info",
       "colorize": true
     },
     "file": {
       "active": false
     }
   },
-  "dataFolder": "test/fixtures/configs"
+  "services": {
+    "register": {
+      "url": "http://127.0.0.1:7000/"
+    }
+  },
+  "modules": [
+    {"name" : "core", "path" : "../config-rec.la/pryv.io/single node/pryv/core/conf/core.json"},
+    {"name" : "register", "path" : "../config-rec.la/pryv.io/single node/pryv/register/conf/register.json"}
+  ]
 }

@@ -18,12 +18,9 @@ class Service {
     async process() {
       const config = await this.fetchSettings();
       await this.pushSettings(config);
-      await this.startService();
     }
 
     async fetchSettings(): Promise<Object> {
-      logger.debug('\n\nloading ' + this.name + ' settings');
-
       const regUrlPath = settings.get('services:register:url');
       if(!regUrlPath) {
         logger.warn('Parameter "services.register.url" is undefined, set it in the configuration to allow service-config-follower to fetch other services configuration');
@@ -35,7 +32,7 @@ class Service {
       try {
         res = await request.get(regUrl);
       } catch (error) {
-        logger.warn('Unable to retrieve settings from Register on URL: ' + regUrl + '. Error:', error);
+        logger.warn('Unable to retrieve settings from Register on URL: ' + regUrl + ' Error:', error);
         return;
       }
 
@@ -44,10 +41,6 @@ class Service {
 
     async pushSettings(config: Object): Promise<void> {
       fs.writeFileSync(this.configPath, JSON.stringify(config, null, 2), {encoding: 'utf8'});
-    }
-
-    async startService(): Promise<void> {
-      logger.debug('startService '+this.name);
     }
 }
 

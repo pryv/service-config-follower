@@ -1,26 +1,23 @@
 // @flow
 const Service = require('./service');
 const logger = require('./utils/logging').getLogger('app');
+const nconf = require('nconf');
+const child_process = require('child_process');
 
-// process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'; // TODO delete. C'est pour bypasser le certificat SSL expiré
-
-(async ()=>{
-  const services = [
-    // {name: 'core', path: '/root/production.js'},
-    {name: 'core', path: '../service-core/dist/components/api-server/config/production.js'},
-    {name:'register', path: '../service-register/build/register/config/register.js'}]; // TODO
+async function start() {
+  const modules = nconf.get('modules');
 
   try {
-    for (const service of services) { // We can parallelize by using services.forEach(async () => {
-      await new Service(service.name, service.path).process();
-    }
+    for (const module of modules) { // We can parallelize by using services.forEach(async () => {
+      await new Service(module.name, module.path).process();
+    } //);
 
-    logger.debug('\n\nfinished');
+    const command = './src/run-pryv.sh';
+    const result = child_process.execSync(command);
+    logger.debug(result);
   } catch (error) {
     logger.error(error);
   }
-})();
+}
 
-
-
-
+start();

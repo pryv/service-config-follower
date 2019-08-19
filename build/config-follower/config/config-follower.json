@@ -14,5 +14,9 @@
     "register": {
       "url": "https://reg.rec.la"
     }
-  }
+  },
+  "modules": [
+    {"name" : "core", "path" : "./pryv/core/conf/core.json"},
+    {"name" : "register", "path" : "./pryv/register/conf/register.json"}
+  ]
 }

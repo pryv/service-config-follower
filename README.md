@@ -8,7 +8,6 @@ Prerequisites: Node v8+, Yarn v1+
 
 | Task                              | Command                        |
 | --------------------------------- | ------------------------------ |
-| Setup                             | `yarn install`                 |
 | Run API server                    | `yarn start`                   |
 | Run Tests                         | `yarn test`                    |
 | Create Distribution               | `yarn release`                 |
