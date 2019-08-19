@@ -12,7 +12,7 @@ async function start() {
       await new Service(module.name, module.path).process();
     } //);
 
-    const command = './src/run-pryv.sh';
+    const command = '/app/scripts/run-pryv.sh';
     const result = child_process.execSync(command);
     logger.debug(result);
   } catch (error) {

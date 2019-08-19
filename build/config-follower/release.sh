@@ -5,6 +5,7 @@ source /pd_build/buildconfig
 target_dir="/app/bin"
 log_dir="/app/log"
 conf_dir="/app/conf"
+scripts_dir="/app/scripts"
 
 header "Install application from release.tar"
 
@@ -27,6 +28,10 @@ run yarn release > /dev/null
 # Install the config file
 run mkdir -p $conf_dir && \
   run cp /pd_build/config/config-follower.json $conf_dir/
+
+# Install the scripts
+run mkdir -p $scripts_dir && \
+  run cp /pd_build/scripts/run-pryv.sh $scripts_dir/
 
 # Create the log
 run mkdir -p $log_dir && \
