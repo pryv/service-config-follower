@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo "launching"
-pushd ../config-rec.la/pryv.io/single\ node/
-docker stop $(docker ps -a -q)
-docker-compose -f pryv.yml up -d
-popd
+mypipe="/app/scripts/mypipe"
+echo "./run-pryv.sh" > $mypipe
+echo "exit" > $mypipe
