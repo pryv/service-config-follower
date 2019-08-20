@@ -11,10 +11,11 @@
     }
   },
   "services": {
-    "register": {
+    "config_leader": {
       "url": "http://127.0.0.1:7000/"
     }
   },
+  "run-pryv" : "./build/config-follower/scripts/run-pryv.sh",
   "modules": [
     {"name" : "core", "path" : "../config-rec.la/pryv.io/single node/pryv/core/conf/core.json"},
     {"name" : "register", "path" : "../config-rec.la/pryv.io/single node/pryv/register/conf/register.json"}

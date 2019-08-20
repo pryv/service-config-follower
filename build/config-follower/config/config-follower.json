@@ -11,10 +11,11 @@
     }
   },
   "services": {
-    "register": {
+    "config_leader": {
       "url": "https://reg.rec.la"
     }
   },
+  "run-pryv" : "/app/scripts/run-pryv.sh",
   "modules": [
     {"name" : "core", "path" : "./pryv/core/conf/core.json"},
     {"name" : "register", "path" : "./pryv/register/conf/register.json"}

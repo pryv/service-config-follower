@@ -2,7 +2,7 @@
 const Service = require('./service');
 const logger = require('./utils/logging').getLogger('app');
 const nconf = require('nconf');
-const child_process = require('child_process');
+const spawn = require('child_process').spawn;
 
 async function start() {
   const modules = nconf.get('modules');
@@ -12,9 +12,16 @@ async function start() {
       await new Service(module.name, module.path).process();
     } //);
 
-    const command = '/app/scripts/run-pryv.sh';
-    const result = child_process.execSync(command);
-    logger.debug(result);
+    const proc = spawn(nconf.get('run-pryv'));
+    proc.stdout.on('data', function(data) {
+      logger.info(data);
+    });
+    proc.stderr.on('data', function(data) {
+      logger.error(data);
+    });
+    proc.on('close', function(code) {
+      logger.info('process exited with code : ' + code);
+    });
   } catch (error) {
     logger.error(error);
   }

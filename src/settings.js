@@ -27,7 +27,7 @@ nconf.defaults({
     }
   },
   services: {
-    register: {
+    config_leader: {
       url: 'https://reg.rec.la'
     }
   }

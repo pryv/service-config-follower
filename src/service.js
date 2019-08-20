@@ -21,9 +21,9 @@ class Service {
     }
 
     async fetchSettings(): Promise<Object> {
-      const regUrlPath = settings.get('services:register:url');
+      const regUrlPath = settings.get('services:config_leader:url');
       if(!regUrlPath) {
-        logger.warn('Parameter "services.register.url" is undefined, set it in the configuration to allow service-config-follower to fetch other services configuration');
+        logger.warn('Parameter "services.config_leader.url" is undefined, set it in the configuration to allow service-config-follower to fetch other services configuration');
         return;
       }
 
@@ -32,7 +32,7 @@ class Service {
       try {
         res = await request.get(regUrl);
       } catch (error) {
-        logger.warn('Unable to retrieve settings from Register on URL: ' + regUrl + ' Error:', error);
+        logger.warn('Unable to retrieve settings from config_leader on URL: ' + regUrl + ' Error:', error);
         return;
       }
 
