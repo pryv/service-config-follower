@@ -1,5 +1,6 @@
 #!/bin/bash
+set -e
 
-mypipe="/app/scripts/mypipe"
-echo "./run-pryv" > $mypipe
-echo "exit" > $mypipe
+echo "cd ../../../" > "$1"
+echo "./run-pryv" > "$1"
+echo "exit" > "$1" # leave the tail -f

@@ -15,9 +15,8 @@
       "url": "https://reg.rec.la"
     }
   },
-  "run-pryv" : "/app/scripts/run-pryv.sh",
-  "modules": [
-    {"name" : "core", "path" : "/app/pryv-root/core/conf/core.json"},
-    {"name" : "register", "path" : "/app/pryv-root/register/conf/register.json"}
-  ]
+  "modules": ["core", "dns", "hfs", "influxdb", "mail", "mongodb", "nginx", "preview", "redis", "register"],
+  "pipePath" : "/app/scripts/mypipe",
+  "runPryvPath" : "/app/scripts/run-pryv.sh",
+  "configPath": "./pryv.io/single node/pryv"
 }
