@@ -15,7 +15,7 @@
       "url": "https://reg.rec.la"
     }
   },
-  "modules": ["core", "dns", "hfs", "influxdb", "mail", "mongodb", "nginx", "preview", "redis", "register"],
+  "machines": ["core", "reg-master", "reg-slave", "static"],
   "pipePath" : "/app/scripts/mypipe",
   "runPryvPath" : "/app/scripts/run-pryv.sh",
   "configPath": "/app/pryv-root"

@@ -12,11 +12,11 @@
   },
   "services": {
     "config_leader": {
-      "url": "http://127.0.0.1:7000/"
+      "url": "https://config-leader.rec.la/"
     }
   },
-  "modules": ["core", "dns", "hfs", "influxdb", "mail", "mongodb", "nginx", "preview", "redis", "register"],
+  "machines": ["pryv"],
   "pipePath" : "../config-rec.la/pryv.io/single node/pryv/config-follower/scripts/mypipe",  
   "runPryvPath" : "./build/config-follower/scripts/run-pryv.sh",
-  "configPath": "../config-rec.la/pryv.io/single node/pryv"
+  "configPath": "../config-rec.la/pryv.io/single node"
 }
