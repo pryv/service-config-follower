@@ -12,10 +12,10 @@
   },
   "services": {
     "config_leader": {
-      "url": "https://reg.rec.la"
+      "url": "http://config-leader:7000"
     }
   },
-  "machines": ["core", "reg-master", "reg-slave", "static"],
+  "machines": ["pryv"],
   "pipePath" : "/app/scripts/mypipe",
   "runPryvPath" : "/app/scripts/run-pryv.sh",
   "configPath": "/app/pryv-root"

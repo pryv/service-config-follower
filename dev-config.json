@@ -12,7 +12,7 @@
   },
   "services": {
     "config_leader": {
-      "url": "https://config-leader.rec.la/"
+      "url": "http://127.0.0.1:7000/"
     }
   },
   "machines": ["pryv"],
