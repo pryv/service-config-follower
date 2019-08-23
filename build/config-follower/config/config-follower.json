@@ -15,7 +15,7 @@
       "url": "http://config-leader:7000"
     }
   },
-  "machines": ["pryv"],
+  "machines": [{"name": "pryv", "key": "singlenode-machine-key"}],
   "pipePath" : "/app/scripts/mypipe",
   "runPryvPath" : "/app/scripts/run-pryv.sh",
   "configPath": "/app"

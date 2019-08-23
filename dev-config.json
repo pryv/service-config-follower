@@ -15,7 +15,7 @@
       "url": "http://127.0.0.1:7000/"
     }
   },
-  "machines": ["pryv"],
+  "machines": [{"name": "pryv", "key": "singlenode-machine-key"}],
   "pipePath" : "../config-rec.la/pryv.io/single node/pryv/config-follower/scripts/mypipe",  
   "runPryvPath" : "./build/config-follower/scripts/run-pryv.sh",
   "configPath": "../config-rec.la/pryv.io/single node"
