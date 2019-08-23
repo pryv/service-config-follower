@@ -59,17 +59,6 @@ async function createFiles(fileList: Array<Object>, regUrlPath: string, configPa
       fs.mkdirpSync(directoryPath, {recursive: true});
     }
 
-    // Only pull files in the conf directory
-    if(path.basename(path.dirname(fullPath)) !== 'conf') {
-      continue;
-    }
-
-    // Don't pull .gitkeep files
-    const fileName = path.basename(fullPath);
-    if (fileName === '.gitkeep') {
-      continue;
-    }
-
     // Write the file
     fs.writeFileSync(fullPath, file.content, { encoding: 'utf8' });
   }
