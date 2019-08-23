@@ -18,5 +18,5 @@
   "machines": ["pryv"],
   "pipePath" : "/app/scripts/mypipe",
   "runPryvPath" : "/app/scripts/run-pryv.sh",
-  "configPath": "/app/pryv-root"
+  "configPath": "/app"
 }
