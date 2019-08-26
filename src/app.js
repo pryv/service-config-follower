@@ -80,7 +80,7 @@ function startPryv() {
   const command = runPryvPath + ' "' + pipePath + '"';
   logger.info('Starting all pryv components');
   logger.info('command : ' + command);
-  logger.info('if the application is stuck here, consume the pipe (tail -f "$mypipe" | sh)');
+  logger.info('if the application is stuck here, consume the pipe (tail -f "/app/scripts/mypipe" | sh)');
   child_process.spawn(runPryvPath, [pipePath]);
 }
 
