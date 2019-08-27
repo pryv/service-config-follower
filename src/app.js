@@ -6,6 +6,8 @@ const request = require('superagent');
 const url = require('url');
 const fs = require('fs-extra'); // fs.mkdir doesn't include "recursive" option in node < 10 // See https://github.com/nodejs/node/issues/24698
 const path = require('path');
+const express = require('express');
+const middlewares = require('./middlewares');
 
 type PryvFileList = Array<PryvFileItem>;
 type PryvFileItem = {
@@ -19,6 +21,20 @@ class Application {
 
   constructor() {
     this.settings = nconfSettings;
+    this.express = this.setupExpressApp();
+  }
+
+  setupExpressApp(): express$Application {
+    const expressApp = express();
+
+    expressApp.use(express.json());
+    expressApp.use(middlewares.authorization(this.settings));
+
+    require('./routes/notify')(expressApp, this.settings);
+
+    expressApp.use(middlewares.errors);
+
+    return expressApp;
   }
 
   async run() {

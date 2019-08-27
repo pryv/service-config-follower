@@ -1,8 +1,6 @@
 // @flow
 
-import type Application from '../app';
-
-module.exports = function (expressApp: express$Application, app: Application) {
+module.exports = function (expressApp: express$Application, settings: Object) {
 
   // POST /notify: notifies a configuration change
   expressApp.post('/notify', (req: express$Request, res: express$Response, next: express$NextFunction) => {
@@ -11,6 +9,6 @@ module.exports = function (expressApp: express$Application, app: Application) {
   });
 
   function planUpdate (): void {
-    setTimeout(app.startPryv, 10000);
+    // TODO: Implement update
   }
 };

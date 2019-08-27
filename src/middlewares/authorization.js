@@ -2,22 +2,19 @@
 
 const errorsFactory = require('../utils/errorsHandling').factory;
 
-// Middleware that authenticates requesting machines based on machine keys
+// Middleware that enforces and verifies 'Authorization' header or 'auth' query parameter.
 // 
 module.exports = (settings: Object) => {
   return (req: express$Request, res: express$Response, next: express$NextFunction) => {
-    const machineKey = req.headers.authorization || req.query.auth;
-    if (machineKey == null) {
+    const auth = req.headers.authorization || req.query.auth;
+    if (auth == null) {
       return next(errorsFactory.unauthorized("Missing 'Authorization' header or 'auth' query parameter."));
     }
     
-    const authorizedMachines = settings.get('machines');
-    if (authorizedMachines == null || authorizedMachines[machineKey] == null) {
-      return next(errorsFactory.unauthorized('Provided machine key is not authorized.'));
+    const validAuth = settings.get('config-leader:auth');
+    if (validAuth == null || auth !== validAuth) {
+      return next(errorsFactory.unauthorized('Invalid authorization key.'));
     }
-
-    // Set role of authorized machine in the context
-    req.context = Object.assign({}, req.context, {role: authorizedMachines[machineKey]});
 
     next();
   };
