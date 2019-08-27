@@ -12,8 +12,11 @@
     "watch": "node_modules/.bin/babel --watch=./src --out-dir=dist/ --copy-files"
   },
   "dependencies": {
-    "winston": "^2.3.0",
-    "nconf": "^0.10.0"
+    "express": "^4.17.1",
+    "nconf": "^0.10.0",
+    "superagent": "^3.8",
+    "url": "^0.11.0",
+    "winston": "^2.3.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -23,10 +26,8 @@
     "eslint": "^6.1.0",
     "eslint-plugin-flowtype": "^3.12.1",
     "flow-bin": "^0.103.0",
+    "fs-extra": "^8.1.0",
     "mocha": "^6.2.0",
-    "superagent": "^3.8",
-    "supertest": "^4.0.2",
-    "url": "^0.11.0",
-    "fs-extra": "^8.1.0"
+    "supertest": "^4.0.2"
   }
 }

@@ -15,8 +15,12 @@ nconf.file({ file: configFile});
 // 4. Any default values
 //
 nconf.defaults({
+  http: {
+    port: 7000,
+    ip: '127.0.0.1'
+  },
   logs: {
-    prefix: 'service-configuration',
+    prefix: 'config-follower',
     console: {
       active: true,
       level: 'info',
@@ -26,10 +30,14 @@ nconf.defaults({
       active: false
     }
   },
-  services: {
-    config_leader: {
-      url: 'http://config-leader:7000'
-    }
+  'config-leader': {
+    url: 'http://config-leader:7000',
+    auth: 'singlenode-machine-key'
+  },
+  paths: {
+    pipe: '/app/scripts/mypipe',
+    runPryv: '/app/scripts/run-pryv.sh',
+    dataFolder: '/app/pryv'
   }
 });
 

@@ -1,87 +1,92 @@
 // @flow
+const nconfSettings = require('./settings');
 const logger = require('./utils/logging').getLogger('app');
 const child_process = require('child_process');
 const request = require('superagent');
 const url = require('url');
 const fs = require('fs-extra'); // fs.mkdir doesn't include "recursive" option in node < 10 // See https://github.com/nodejs/node/issues/24698
 const path = require('path');
-const settings = require('./settings');
 
-async function run() {
-  const regUrlPath = settings.get('services:config_leader:url');
-  const configPath = settings.get('configPath');
-  const machines = settings.get('machines');
+type PryvFileList = Array<PryvFileItem>;
+type PryvFileItem = {
+  path: string,
+  content: string
+};
 
-  try {
-    let machine;
-    for (machine of machines) { // We can parallelize by using machines.forEach(async () => {
-      const fileList = await getMachineFileList(machine, regUrlPath);
-      await createFiles(fileList, regUrlPath, configPath, machine.name);
-    } //);
+class Application {
+  express: express$Application;
+  settings: Object;
 
-    startPryv();
-  } catch (error) {
-    logger.error(error);
-  }
-}
-
-async function getMachineFileList(machine: Object, regUrlPath: string): Promise<Object> {
-  logger.debug('Retrieving file list of machine ' + machine.name);
-  if(!regUrlPath) {
-    throw new Error('Parameter "services.config_leader.url" is undefined, set it in the configuration to allow service-config-follower to fetch other services configuration');
+  constructor() {
+    this.settings = nconfSettings;
   }
 
-  const regUrl = url.resolve(regUrlPath, 'conf');
-  let res;
-  try {
-    res = await request
-      .get(regUrl)
-      .set('Authorization', machine.key);
-  } catch (error) {
-    throw new Error('Unable to retrieve file list from config_leader on URL: ' + regUrl + ' Error:' + error); // TODO let the throw here to enhance the log ? Or let the upper try/catch handle that ?
-  }
+  async run() {
+    const leaderUrl = this.settings.get('config-leader:url');
+    const dataFolder = this.settings.get('paths:dataFolder');
 
-  return res.body.files;
-}
-
-async function createFiles(fileList: Array<Object>, regUrlPath: string, configPath: string, machineName: string) {
-  if(!Array.isArray(fileList)) {
-    throw new Error('File list is not an array. ' + fileList);
-  }
-
-  let file;
-  for (file of fileList) {
-    const fullPath = path.resolve(path.join(configPath, machineName, file.path));
-    const directoryPath = path.dirname(fullPath);
-
-    // Create directory structure if it doesn't exist
-    if(!fs.existsSync(directoryPath)) {
-      fs.mkdirpSync(directoryPath, {recursive: true});
+    if (leaderUrl == null) {
+      throw new Error('Missing setting "config-leader:url".');
     }
 
-    // Write the file
-    fs.writeFileSync(fullPath, file.content, { encoding: 'utf8' });
+    if (dataFolder == null) {
+      throw new Error('Missing setting "paths:dataFolder".');
+    }
+
+    const fileList = await this.getFiles(leaderUrl);
+
+    if(! Array.isArray(fileList)) {
+      throw new Error(`File list is not an array: ${fileList}`);
+    }
+
+    await this.writeFiles(fileList, dataFolder);
+
+    this.startPryv();
+  }
+
+  async getFiles(leaderUrl: string): Promise<PryvFileList> {
+    const leaderEndpoint = url.resolve(leaderUrl, 'conf');
+    const auth = this.settings.get('config-leader:auth');
+
+    const res = await request
+      .get(leaderEndpoint)
+      .set('Authorization', auth);
+
+    return res.body.files;
+  }
+
+  async writeFiles(fileList: PryvFileList, dataFolder: string): Promise<void> {
+    for (const file of fileList) {
+      const fullPath = path.resolve(path.join(dataFolder, file.path));
+      const directoryPath = path.dirname(fullPath);
+
+      // Create directory structure if it doesn't exist
+      if(! fs.existsSync(directoryPath)) {
+        fs.mkdirpSync(directoryPath, {recursive: true});
+      }
+
+      // Write the file
+      fs.writeFileSync(fullPath, file.content, { encoding: 'utf8' });
+    }
+  }
+
+  startPryv() {
+    const pipePath = this.settings.get('paths:pipe');
+    const runPryvPath = this.settings.get('paths:runPryv');
+
+    if(! fs.existsSync(pipePath)) {
+      throw new Error(`Pipe does not exist: ${pipePath}.`);
+    }
+
+    if(! fs.existsSync(runPryvPath)) {
+      throw new Error(`Run-pryv script does not exist: ${runPryvPath}.`);
+    }
+
+    logger.info('Starting all pryv components');
+    logger.info(`command : ${runPryvPath} "${pipePath}"`);
+    logger.info('if the application is stuck here, consume the pipe (tail -f "/app/scripts/mypipe" | sh)');
+    child_process.spawn(runPryvPath, [pipePath]);
   }
 }
 
-function startPryv() {
-  const pipePath = settings.get('pipePath');
-  if(!fs.existsSync(pipePath)) {
-    logger.error('pipe is not set : ' + pipePath);
-    return;
-  }
-
-  const runPryvPath = settings.get('runPryvPath');
-  if(!fs.existsSync(runPryvPath)) {
-    logger.error('script is not set : ' + runPryvPath);
-    return;
-  }
-
-  const command = runPryvPath + ' "' + pipePath + '"';
-  logger.info('Starting all pryv components');
-  logger.info('command : ' + command);
-  logger.info('if the application is stuck here, consume the pipe (tail -f "/app/scripts/mypipe" | sh)');
-  child_process.spawn(runPryvPath, [pipePath]);
-}
-
-run();
+module.exports = Application;
