@@ -30,7 +30,7 @@ class Application {
     expressApp.use(express.json());
     expressApp.use(middlewares.authorization(this.settings));
 
-    require('./routes/notify')(expressApp, this.settings);
+    require('./routes/restart')(expressApp, this);
 
     expressApp.use(middlewares.errors);
 
@@ -58,6 +58,10 @@ class Application {
     await this.writeFiles(fileList, dataFolder);
 
     this.startPryv();
+  }
+
+  async restart() {
+    await this.run();
   }
 
   async getFiles(leaderUrl: string): Promise<PryvFileList> {
