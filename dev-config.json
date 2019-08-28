@@ -14,7 +14,7 @@
       "active": false
     }
   },
-  "config-leader": {
+  "leader": {
     "url": "http://127.0.0.1:7000",
     "auth": "singlenode-machine-key"
   },

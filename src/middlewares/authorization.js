@@ -11,7 +11,7 @@ module.exports = (settings: Object) => {
       return next(errorsFactory.unauthorized("Missing 'Authorization' header or 'auth' query parameter."));
     }
     
-    const validAuth = settings.get('config-leader:auth');
+    const validAuth = settings.get('leader:auth');
     if (validAuth == null || auth !== validAuth) {
       return next(errorsFactory.unauthorized('Invalid authorization key.'));
     }

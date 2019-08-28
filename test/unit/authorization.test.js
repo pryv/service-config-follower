@@ -30,7 +30,7 @@ describe('Authorization middleware', function () {
   });
 
   it('succeeds if auth key is valid', async () => {
-    const validAuth = settings.get('config-leader:auth');
+    const validAuth = settings.get('leader:auth');
     req.headers.authorization = validAuth;
     // FLOW: mocking req, res
     authMiddleware(req, res, (err) => {

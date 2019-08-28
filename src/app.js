@@ -38,11 +38,11 @@ class Application {
   }
 
   async run() {
-    const leaderUrl = this.settings.get('config-leader:url');
+    const leaderUrl = this.settings.get('leader:url');
     const dataFolder = this.settings.get('paths:dataFolder');
 
     if (leaderUrl == null) {
-      throw new Error('Missing setting "config-leader:url".');
+      throw new Error('Missing setting "leader:url".');
     }
 
     if (dataFolder == null) {
@@ -66,7 +66,7 @@ class Application {
 
   async getFiles(leaderUrl: string): Promise<PryvFileList> {
     const leaderEndpoint = url.resolve(leaderUrl, 'conf');
-    const auth = this.settings.get('config-leader:auth');
+    const auth = this.settings.get('leader:auth');
 
     const res = await request
       .get(leaderEndpoint)

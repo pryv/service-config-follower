@@ -30,7 +30,7 @@ nconf.defaults({
       active: false
     }
   },
-  'config-leader': {
+  leader: {
     url: 'http://config-leader:7000',
     auth: 'singlenode-machine-key'
   },

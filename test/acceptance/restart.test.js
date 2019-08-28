@@ -11,7 +11,7 @@ const settings = app.settings;
 describe('POST /restart', function () {
 
   it('answers OK', async () => {
-    const auth = settings.get('config-leader:auth');
+    const auth = settings.get('leader:auth');
     const res = await request
       .post('/restart')
       .set('Authorization', auth);
