@@ -1,7 +1,5 @@
 // @flow
 const nconfSettings = require('./settings');
-const logger = require('./utils/logging').getLogger('app');
-const child_process = require('child_process');
 const request = require('superagent');
 const url = require('url');
 const fs = require('fs-extra'); // fs.mkdir doesn't include "recursive" option in node < 10 // See https://github.com/nodejs/node/issues/24698
@@ -30,24 +28,16 @@ class Application {
     expressApp.use(express.json());
     expressApp.use(middlewares.authorization(this.settings));
 
-    require('./routes/restart')(expressApp, this);
+    require('./routes/notify')(expressApp, this);
 
     expressApp.use(middlewares.errors);
 
     return expressApp;
   }
 
-  async run() {
+  async fetchConfig (): Promise<void> {
     const leaderUrl = this.settings.get('leader:url');
     const dataFolder = this.settings.get('paths:dataFolder');
-
-    if (leaderUrl == null) {
-      throw new Error('Missing setting "leader:url".');
-    }
-
-    if (dataFolder == null) {
-      throw new Error('Missing setting "paths:dataFolder".');
-    }
 
     const fileList = await this.getFiles(leaderUrl);
 
@@ -56,15 +46,13 @@ class Application {
     }
 
     await this.writeFiles(fileList, dataFolder);
-
-    this.startPryv();
-  }
-
-  async restart() {
-    await this.run();
   }
 
   async getFiles(leaderUrl: string): Promise<PryvFileList> {
+    if (leaderUrl == null) {
+      throw new Error('Parameter leaderUrl is missing.');
+    }
+
     const leaderEndpoint = url.resolve(leaderUrl, 'conf');
     const auth = this.settings.get('leader:auth');
 
@@ -76,6 +64,10 @@ class Application {
   }
 
   async writeFiles(fileList: PryvFileList, dataFolder: string): Promise<void> {
+    if (dataFolder == null) {
+      throw new Error('Parameter dataFolder is missing.');
+    }
+
     for (const file of fileList) {
       const fullPath = path.resolve(path.join(dataFolder, file.path));
       const directoryPath = path.dirname(fullPath);
@@ -88,24 +80,6 @@ class Application {
       // Write the file
       fs.writeFileSync(fullPath, file.content, { encoding: 'utf8' });
     }
-  }
-
-  startPryv() {
-    const pipePath = this.settings.get('paths:pipe');
-    const runPryvPath = this.settings.get('paths:runPryv');
-
-    if(! fs.existsSync(pipePath)) {
-      throw new Error(`Pipe does not exist: ${pipePath}.`);
-    }
-
-    if(! fs.existsSync(runPryvPath)) {
-      throw new Error(`Run-pryv script does not exist: ${runPryvPath}.`);
-    }
-
-    logger.info('Starting all pryv components');
-    logger.info(`command : ${runPryvPath} "${pipePath}"`);
-    logger.info('if the application is stuck here, consume the pipe (tail -f "/app/scripts/mypipe" | sh)');
-    child_process.spawn(runPryvPath, [pipePath]);
   }
 }
 

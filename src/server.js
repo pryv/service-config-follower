@@ -8,8 +8,8 @@ const settings = app.settings;
 const port = settings.get('http:port');
 const ip = settings.get('http:ip');
 
-// Launch the app and server
-app.run()
+// Fetch config at startup then launch the server
+app.fetchConfig()
   .then(() => {
     app.express.listen(port, ip, () => {
       logger.info(`Server running on: ${ip}:${port}`);

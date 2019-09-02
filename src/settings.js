@@ -35,8 +35,6 @@ nconf.defaults({
     auth: 'singlenode-machine-key'
   },
   paths: {
-    pipe: '/app/scripts/mypipe',
-    runPryv: '/app/scripts/run-pryv.sh',
     dataFolder: '/app/pryv'
   }
 });

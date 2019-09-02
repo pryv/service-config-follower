@@ -19,8 +19,6 @@
     "auth": "singlenode-machine-key"
   },
   "paths": {
-    "pipe": "../config-rec.la/pryv.io/single node/pryv/config-follower/scripts/mypipe",
-    "runPryv": "./build/config-follower/scripts/run-pryv.sh",
     "dataFolder": "../config-rec.la/pryv.io/single node"
   }
 }

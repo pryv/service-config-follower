@@ -28,6 +28,7 @@
     "flow-bin": "^0.103.0",
     "fs-extra": "^8.1.0",
     "mocha": "^6.2.0",
-    "supertest": "^4.0.2"
+    "supertest": "^4.0.2",
+    "nock": "^10.0.6"
   }
 }
