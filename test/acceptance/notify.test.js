@@ -9,17 +9,20 @@ const request = require('supertest')(app.express);
 const settings = app.settings;
 const mockLeader = require('../fixtures/leaderMock');
 
+import type { PryvFileList } from '../../src/app.js';
+
+const files: PryvFileList = [
+  {
+    path: '/core/conf/core.json',
+    content: 'I am a dummy config'
+  },
+  {
+    path: '/register/conf/register.json',
+    content: 'Another one (bite the dust)'
+  }
+];
 const filesToWrite = {
-  files: [
-    {
-      path: '/core/conf/core.json',
-      content: 'I am a dummy config'
-    },
-    {
-      path: '/register/conf/register.json',
-      content: 'Another one (bite the dust)'
-    }
-  ]
+  files: files
 };
 
 describe('POST /notify', function () {
