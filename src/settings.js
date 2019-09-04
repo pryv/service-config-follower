@@ -16,7 +16,7 @@ nconf.file({ file: configFile});
 //
 nconf.defaults({
   http: {
-    port: 7000,
+    port: 7001,
     ip: '127.0.0.1'
   },
   logs: {

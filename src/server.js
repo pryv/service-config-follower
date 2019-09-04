@@ -10,7 +10,8 @@ const ip = settings.get('http:ip');
 
 // Fetch config at startup then launch the server
 app.fetchConfig()
-  .then(() => {
+  .then((filesWritten) => {
+    logger.debug('files written : ' + JSON.stringify(filesWritten, null, 2));
     app.express.listen(port, ip, () => {
       logger.info(`Server running on: ${ip}:${port}`);
     });

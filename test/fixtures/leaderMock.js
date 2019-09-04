@@ -3,16 +3,8 @@
 const nock = require('nock');
 const settings = require('../../src/settings');
 
-module.exports = function (): void {
+module.exports = function (filesToWrite: Object): void {
   const leader = settings.get('leader');
-  const mockedConfig = {
-    files: [
-      {
-        path: '/core/conf/core.json',
-        content: 'I am a dummy config'
-      }
-    ]
-  };
 
   nock(leader.url)
     .get('/conf')
@@ -21,7 +13,7 @@ module.exports = function (): void {
       let status, result;
       if (headerValue === leader.auth) {
         status = 200;
-        result = mockedConfig;
+        result = filesToWrite;
       }
       else {
         status = 403;

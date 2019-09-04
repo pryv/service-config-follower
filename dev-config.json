@@ -1,6 +1,6 @@
 {
   "http": {
-    "port": 7000,
+    "port": 7001,
     "ip": "0.0.0.0"
   },
   "logs": {
@@ -19,6 +19,6 @@
     "auth": "singlenode-machine-key"
   },
   "paths": {
-    "dataFolder": "../config-rec.la/pryv.io/single node"
+    "dataFolder": "test/fixtures/pryv/"
   }
 }

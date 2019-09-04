@@ -35,7 +35,7 @@ class Application {
     return expressApp;
   }
 
-  async fetchConfig (): Promise<void> {
+  async fetchConfig (): Promise<Array<Object>> {
     const leaderUrl = this.settings.get('leader:url');
     const dataFolder = this.settings.get('paths:dataFolder');
 
@@ -45,7 +45,7 @@ class Application {
       throw new Error(`File list is not an array: ${fileList}`);
     }
 
-    await this.writeFiles(fileList, dataFolder);
+    return await this.writeFiles(fileList, dataFolder);
   }
 
   async getFiles(leaderUrl: string): Promise<PryvFileList> {
@@ -63,11 +63,12 @@ class Application {
     return res.body.files;
   }
 
-  async writeFiles(fileList: PryvFileList, dataFolder: string): Promise<void> {
+  async writeFiles(fileList: PryvFileList, dataFolder: string): Promise<Array<Object>> {
     if (dataFolder == null) {
       throw new Error('Parameter dataFolder is missing.');
     }
 
+    const filesWritten = [];
     for (const file of fileList) {
       const fullPath = path.resolve(path.join(dataFolder, file.path));
       const directoryPath = path.dirname(fullPath);
@@ -78,8 +79,12 @@ class Application {
       }
 
       // Write the file
+      const fileWritten = {path: path.join(dataFolder, file.path), size: file.content.length};
       fs.writeFileSync(fullPath, file.content, { encoding: 'utf8' });
+      filesWritten.push(fileWritten);
     }
+
+    return filesWritten;
   }
 }
 

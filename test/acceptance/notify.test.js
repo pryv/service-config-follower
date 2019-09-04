@@ -9,21 +9,38 @@ const request = require('supertest')(app.express);
 const settings = app.settings;
 const mockLeader = require('../fixtures/leaderMock');
 
+const filesToWrite = {
+  files: [
+    {
+      path: '/core/conf/core.json',
+      content: 'I am a dummy config'
+    },
+    {
+      path: '/register/conf/register.json',
+      content: 'Another one (bite the dust)'
+    }
+  ]
+};
+
 describe('POST /notify', function () {
 
   before(async () => {
-    mockLeader();
+    mockLeader(filesToWrite);
   });
 
-  it('answers OK', async () => {
+  it('should write files to the disk', async () => {
     const auth = settings.get('leader:auth');
     const res = await request
       .post('/notify')
       .set('Authorization', auth);
 
     assert.strictEqual(res.status, 200);
-    assert.strictEqual(res.text, 'OK');
 
-    // TODO: test that it actually writes the config file
+    const filesWritten = res.body;
+    assert.isArray(filesWritten);
+    assert.strictEqual(filesWritten.length, filesToWrite.files.length);
+    for(let i = 0; i < filesWritten.length; i++) {
+      assert.include(filesWritten[i].path, filesToWrite.files[i].path);
+    }
   });
 });
