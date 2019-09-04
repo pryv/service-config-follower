@@ -11,7 +11,7 @@ const mockLeader = require('../fixtures/leaderMock');
 const path = require('path');
 const fs = require('fs');
 
-import type { PryvFileList } from '../../src/app.js';
+import type { PryvFilesObject, PryvFileList } from '../../src/app.js';
 
 const files: PryvFileList = [
   {
@@ -23,7 +23,7 @@ const files: PryvFileList = [
     content: 'Another one (bite the dust)'
   }
 ];
-const filesToWrite = {
+const filesToWrite: PryvFilesObject = {
   files: files
 };
 
@@ -41,14 +41,13 @@ describe('POST /notify', function () {
 
     assert.strictEqual(res.status, 200);
 
-    const filesWritten = res.body;
+    const filesWritten = res.body.files;
     assert.isArray(filesWritten);
     assert.strictEqual(filesWritten.length, filesToWrite.files.length);
 
     const dataFolder = settings.get('paths:dataFolder');
     for(let i = 0; i < filesWritten.length; i++) {
-      console.log('\n\n'+filesWritten[i].path+'\n'+filesToWrite.files[i].path);
-      assert.include(filesWritten[i].path, filesToWrite.files[i].path);
+      assert.include(filesWritten[i], filesToWrite.files[i].path);
 
       const writtenFilePath = path.join(dataFolder, filesToWrite.files[i].path);
       const fileExist = fs.existsSync(writtenFilePath);

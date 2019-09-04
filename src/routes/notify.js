@@ -10,7 +10,7 @@ module.exports = function (expressApp: express$Application, app: Application) {
     app.fetchConfig()
       .then((filesWritten) => {
         logger.debug('files written : ' + JSON.stringify(filesWritten, null, 2));
-        res.send(filesWritten);
+        res.send({files: filesWritten});
       })
       .catch(next);
   });

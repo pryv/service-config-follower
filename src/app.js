@@ -7,6 +7,9 @@ const path = require('path');
 const express = require('express');
 const middlewares = require('./middlewares');
 
+export type PryvFilesObject = {
+  files: PryvFileList
+};
 export type PryvFileList = Array<PryvFileItem>;
 export type PryvFileItem = {
   path: string,
@@ -35,7 +38,7 @@ class Application {
     return expressApp;
   }
 
-  async fetchConfig (): Promise<PryvFileList> {
+  async fetchConfig (): Promise<Array<string>> {
     const leaderUrl = this.settings.get('leader:url');
     const dataFolder = this.settings.get('paths:dataFolder');
 
@@ -63,13 +66,14 @@ class Application {
     return res.body.files;
   }
 
-  async writeFiles(fileList: PryvFileList, dataFolder: string): Promise<PryvFileList> {
+  async writeFiles(fileList: PryvFileList, dataFolder: string): Promise<Array<string>> {
     if (dataFolder == null) {
       throw new Error('Parameter dataFolder is missing.');
     }
 
-    const filesWritten: PryvFileList = [];
-    for (const file of fileList) {
+    const filesWritten: Array<string> = [];
+    let file;
+    for (file of fileList) {
       const fullPath = path.resolve(path.join(dataFolder, file.path));
       const directoryPath = path.dirname(fullPath);
 
@@ -79,7 +83,7 @@ class Application {
       }
 
       // Write the file
-      const fileWritten: PryvFileItem = {path: path.join(dataFolder, file.path), content: '<hidden>', size: file.content.length};
+      const fileWritten = path.join(dataFolder, file.path);
       fs.writeFileSync(fullPath, file.content, { encoding: 'utf8' });
       filesWritten.push(fileWritten);
     }

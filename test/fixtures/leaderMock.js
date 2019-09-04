@@ -2,8 +2,9 @@
 
 const nock = require('nock');
 const settings = require('../../src/settings');
+import type { PryvFilesObject } from '../../src/app.js';
 
-module.exports = function (filesToWrite: Object): void {
+module.exports = function (filesToWrite: PryvFilesObject): void {
   const leader = settings.get('leader');
 
   nock(leader.url)
