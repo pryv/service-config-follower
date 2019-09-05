@@ -1,4 +1,8 @@
 {
+  "http": {
+    "port": 7001,
+    "ip": "0.0.0.0"
+  },
   "logs": {
     "prefix": "config-follower",
     "console": {
@@ -10,13 +14,11 @@
       "active": false
     }
   },
-  "services": {
-    "config_leader": {
-      "url": "http://127.0.0.1:7000/"
-    }
+  "leader": {
+    "url": "http://127.0.0.1:7000",
+    "auth": "singlenode-machine-key"
   },
-  "machines": [{"name": "pryv", "key": "singlenode-machine-key"}],
-  "pipePath" : "../config-rec.la/pryv.io/single node/pryv/config-follower/scripts/mypipe",  
-  "runPryvPath" : "./build/config-follower/scripts/run-pryv.sh",
-  "configPath": "../config-rec.la/pryv.io/single node"
+  "paths": {
+    "dataFolder": "test/fixtures/pryv/"
+  }
 }

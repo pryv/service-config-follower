@@ -1,2 +1,2 @@
 #!/bin/sh
-chpst -u :9999:9999 node /app/bin/dist/app.js --config /app/conf/config-follower.json
+exec chpst -u app node /app/bin/dist/server.js --config /app/conf/config-follower.json
