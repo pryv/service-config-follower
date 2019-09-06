@@ -13,7 +13,7 @@ const fs = require('fs');
 
 import type { PryvFilesObject, PryvFileList } from '../../src/app.js';
 
-const files: PryvFileList = [
+const filesOk: PryvFileList = [
   {
     path: '/core/conf/core.json',
     content: 'I am a dummy config'
@@ -24,16 +24,24 @@ const files: PryvFileList = [
   }
 ];
 const filesToWrite: PryvFilesObject = {
-  files: files
+  files: filesOk
+};
+
+const filesKo: PryvFileList = [
+  {
+    path: '/register/data/dont_write.me',
+    content: 'JSUIS PAS VENU ICI POUR SOUFFRIR, OK ?'
+  }
+];
+const filesToNotWrite: PryvFilesObject = {
+  files: filesKo
 };
 
 describe('POST /notify', function () {
 
-  before(async () => {
-    mockLeader(filesToWrite);
-  });
-
   it('should write files to the disk', async () => {
+    mockLeader(filesToWrite);
+
     const auth = settings.get('leader:auth');
     const res = await request
       .post('/notify')
@@ -53,5 +61,26 @@ describe('POST /notify', function () {
       const fileExist = fs.existsSync(writtenFilePath);
       assert.strictEqual(fileExist, true);
     }
+  });
+
+  it('should not write data files to the disk', async () => {
+    mockLeader(filesToNotWrite);
+
+    const auth = settings.get('leader:auth');
+    const res = await request
+      .post('/notify')
+      .set('Authorization', auth);
+
+    assert.strictEqual(res.status, 200);
+
+    const filesWritten = res.body.files;
+    assert.isArray(filesWritten);
+    assert.strictEqual(filesWritten.length, 0);
+
+    const dataFolder = settings.get('paths:dataFolder');
+
+    const writtenFilePath = path.join(dataFolder, filesToNotWrite.files[0].path);
+    const fileExist = fs.existsSync(writtenFilePath);
+    assert.strictEqual(fileExist, false);
   });
 });
