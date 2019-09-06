@@ -82,6 +82,11 @@ class Application {
         fs.mkdirpSync(directoryPath, {recursive: true});
       }
 
+      // Only pull files in the conf directory
+      if(path.basename(path.dirname(fullPath)) !== 'conf') {
+        continue;
+      }
+
       // Write the file
       const fileWritten = path.join(dataFolder, file.path);
       fs.writeFileSync(fullPath, file.content, { encoding: 'utf8' });
