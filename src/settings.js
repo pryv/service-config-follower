@@ -35,7 +35,7 @@ nconf.defaults({
     auth: 'singlenode-machine-key'
   },
   paths: {
-    dataFolder: '/app/pryv'
+    dataFolder: '/app/pryv/'
   }
 });
 
