@@ -85,7 +85,7 @@ class Application {
       // Don't pull files in the data directory
       const whitelistRoot = new RegExp('.*' + dataFolder + '[^/\\\\]+$', 'g'); // authorize files in root (no slash or backslash allowed in the filename)
       const whitelistConf = new RegExp('.*' + dataFolder + '[^/\\\\]+/conf/.*', 'g'); // authorize files in /conf/ folder
-      if(!fullPath.match(whitelistRoot) || !fullPath.match(whitelistConf)){
+      if(!fullPath.match(whitelistRoot) && !fullPath.match(whitelistConf)){
         continue;
       }
 
