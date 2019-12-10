@@ -1,6 +1,6 @@
 {
   "name": "service-config-follower",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A micro-service who will fetch configurations from service-config-leader (on register), put them as file in the corresponding service folder and restart the service.",
   "main": "index.js",
   "author": "Loïc Correvon",
