@@ -3,7 +3,9 @@
 const Application = require('./app');
 const logger = require('./utils/logging').getLogger('server');
 
-const app = new Application();
+const app = new Application({
+  logger: logger
+});
 const settings = app.settings;
 const port = settings.get('http:port');
 const ip = settings.get('http:ip');
@@ -11,7 +13,6 @@ const ip = settings.get('http:ip');
 // Fetch config at startup then launch the server
 app.fetchConfig()
   .then((filesWritten) => {
-    logger.debug('files written : ' + JSON.stringify(filesWritten, null, 2));
     app.express.listen(port, ip, () => {
       logger.info(`Server running on: ${ip}:${port}`);
     });

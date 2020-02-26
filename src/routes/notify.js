@@ -9,7 +9,6 @@ module.exports = function (expressApp: express$Application, app: Application) {
   expressApp.post('/notify', (req: express$Request, res: express$Response, next: express$NextFunction) => {
     app.fetchConfig()
       .then((filesWritten) => {
-        logger.debug('files written : ' + JSON.stringify(filesWritten, null, 2));
         res.send({files: filesWritten});
       })
       .catch(next);

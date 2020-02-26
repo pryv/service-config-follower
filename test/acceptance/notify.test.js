@@ -21,6 +21,10 @@ const filesOk: PryvFileList = [
   {
     path: '/register/conf/register.json',
     content: 'Another one (bite the dust)'
+  },
+  {
+    path: '/mail/templates/reset-password/en/html.pug',
+    content: 'I should be written now'
   }
 ];
 const filesToWrite: PryvFilesObject = {

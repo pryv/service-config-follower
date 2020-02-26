@@ -19,10 +19,16 @@ export type PryvFileItem = {
 class Application {
   express: express$Application;
   settings: Object;
+  logger: Object;
 
-  constructor() {
+  constructor(params: {
+    logger: Object,
+  }) {
     this.settings = nconfSettings;
     this.express = this.setupExpressApp();
+    if (params != null) {
+      this.logger = params.logger;
+    }
   }
 
   setupExpressApp(): express$Application {
@@ -62,7 +68,12 @@ class Application {
     const res = await request
       .get(leaderEndpoint)
       .set('Authorization', auth);
-
+    
+    const files = res.body.files;
+    files.forEach(f => {
+      this.log('info', 'Retrieved file: ' + f.path)
+    })
+    
     return res.body.files;
   }
 
@@ -85,17 +96,24 @@ class Application {
       // Don't pull files in the data directory
       const whitelistRoot = new RegExp('.*' + dataFolder + '[^/\\\\]+$', 'g'); // authorize files in root (no slash or backslash allowed in the filename)
       const whitelistConf = new RegExp('.*' + dataFolder + '[^/\\\\]+/conf/.*', 'g'); // authorize files in /conf/ folder
-      if(!fullPath.match(whitelistRoot) && !fullPath.match(whitelistConf)){
+      const whitelistTemplates = new RegExp('.*' + dataFolder + '[^/\\\\]+/templates/.*', 'g'); // authorize files in /templates/ folder
+      if(!fullPath.match(whitelistRoot) && !fullPath.match(whitelistConf) && !fullPath.match(whitelistTemplates)){
         continue;
       }
 
       // Write the file
       const fileWritten = path.join(dataFolder, file.path);
+      this.log('info', 'Writing file: ' + fileWritten);
       fs.writeFileSync(fullPath, file.content, { encoding: 'utf8' });
       filesWritten.push(fileWritten);
     }
 
     return filesWritten;
+  }
+
+  log(level, message) {
+    if (this.logger == null) return;
+    this.logger[level](message);
   }
 }
 
