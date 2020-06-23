@@ -24,13 +24,13 @@ module.exports = function (expressApp: express$Application, app: Application) {
             child_process.execSync(`sudo docker-compose -f ${fileLoc} down`);
         }
         catch(e) {
-            console.error('Error during stopping runnning containers', e)
+            console.error('Error during stopping containers', e)
         }
         try {
             child_process.execSync(`sudo docker-compose -f ${fileLoc} up -d`);
         }
         catch(e) {
-            console.error('Error during starting stopped containers', e)
+            console.error('Error during starting containers', e)
         }
     } else {
       console.error(`Docker compose file: ${fileLoc} does not exist`)
