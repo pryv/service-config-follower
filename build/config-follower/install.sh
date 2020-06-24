@@ -19,6 +19,8 @@ run sudo chmod +x /usr/local/bin/docker-compose
 run sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 # To disable password prompt for sudo
 echo "app ALL = NOPASSWD: /usr/local/bin/docker-compose, /usr/bin/docker-compose" > /etc/sudoers.d/docker-compose
+# To give sudo access to PRYV_CONF_ROOT env var
+echo 'Defaults env_keep += "PRYV_CONF_ROOT"' > /etc/sudoers.d/pryv_conf_root_for_sudo
 
 # Clean up after ourselves.
 run /pd_build/finalize.sh
