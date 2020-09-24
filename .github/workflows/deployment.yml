@@ -1,9 +1,6 @@
 name: PrYv Config Follower deployment workflow
 
 on:
-  pull_request:
-    branches:
-      - master
   push:
     tags:
       - '*'
