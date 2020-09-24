@@ -5,14 +5,14 @@ module.exports.COMPOSE_FILE_LOCATION = '/app/pryv/pryv.yml';
 
 module.exports.stopContainers = (service) => {
   if (service == null) {
-    child_process.execSync(`docker-compose -f ${this.COMPOSE_FILE_LOCATION} down`);
+    child_process.execSync(`sudo docker-compose -f ${this.COMPOSE_FILE_LOCATION} down`);
   } else {
-    child_process.execSync(`docker stop ${service}`);
+    child_process.execSync(`sudo docker stop ${service}`);
   }
 };
 
 module.exports.startContainers = () => {
-  child_process.execSync(`docker-compose -f ${this.COMPOSE_FILE_LOCATION} up -d`);
+  child_process.execSync(`sudo docker-compose -f ${this.COMPOSE_FILE_LOCATION} up -d`);
 };
 
 module.exports.restartPryvContainers = (services) => {
