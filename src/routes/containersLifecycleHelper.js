@@ -4,7 +4,7 @@ const fs = require('fs');
 module.exports.COMPOSE_FILE_LOCATION = '/app/pryv/pryv.yml';
 
 module.exports.stopContainers = (service) => {
-  if (!service) {
+  if (service == null) {
     child_process.execSync(`docker-compose -f ${this.COMPOSE_FILE_LOCATION} down`);
   } else {
     child_process.execSync(`docker stop ${service}`);
@@ -18,7 +18,7 @@ module.exports.startContainers = () => {
 module.exports.restartPryvContainers = (services) => {
   if (fs.existsSync(this.COMPOSE_FILE_LOCATION)) {
     try {
-      if (!services) {
+      if (services == null) {
         this.stopContainers();
       } else {
         for (let service of services) {
