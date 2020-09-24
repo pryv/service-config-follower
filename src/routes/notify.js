@@ -11,8 +11,8 @@ module.exports = function (expressApp: express$Application, app: Application) {
     app.fetchConfig()
       .then((filesWritten) => {
         let services = req.body.services;
-        containersLifecycleHelper.restartPryvContainers(services);
         res.send({ files: filesWritten });
+        containersLifecycleHelper.restartPryvContainers(services);
       })
       .catch(next);
   });
