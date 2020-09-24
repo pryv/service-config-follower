@@ -25,4 +25,4 @@ host="pryvsa-docker-release.bintray.io"
 
 echo "---------------------------- building config-follower ------------------------------"
 docker build -f $SCRIPT_FOLDER/config-follower/Dockerfile -t $host/pryv/config-follower:$version $SCRIPT_FOLDER/config-follower/.
-docker push $host/pryv/config-leader:$version
+docker push $host/pryv/config-follower:$version
