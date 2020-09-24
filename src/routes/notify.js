@@ -1,7 +1,7 @@
 // @flow
 
 import type Application from '../app';
-const helper = require('./helper');
+const containersLifecycleHelper = require('./containersLifecycleHelper');
 
 
 module.exports = function (expressApp: express$Application, app: Application) {
@@ -11,7 +11,7 @@ module.exports = function (expressApp: express$Application, app: Application) {
     app.fetchConfig()
       .then((filesWritten) => {
         let services = req.body.services;
-        helper.restartPryvContainers(services);
+        containersLifecycleHelper.restartPryvContainers(services);
         res.send({ files: filesWritten });
       })
       .catch(next);
