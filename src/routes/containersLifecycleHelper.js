@@ -1,13 +1,24 @@
 const child_process = require('child_process');
 const fs = require('fs');
+const yaml = require('js-yaml');
 
 module.exports.COMPOSE_FILE_LOCATION = '/app/pryv/pryv.yml';
+
+let dockerCompose;
+try {
+  dockerCompose = yaml.safeLoad(fs.readFileSync(this.COMPOSE_FILE_LOCATION, 'utf8'));
+} catch (e) {
+  if (process.env.NODE_ENV !== 'test') {
+    console.error(`containersLifecycleHelper cannot load docker-compose file from ${this.COMPOSE_FILE_LOCATION}`)
+    console.error(e);
+  }
+}
 
 module.exports.stopContainers = (service) => {
   if (service == null) {
     child_process.execSync(`sudo docker-compose -f ${this.COMPOSE_FILE_LOCATION} down`);
   } else {
-    child_process.execSync(`sudo docker stop ${service}`);
+    child_process.execSync(`sudo docker-compose -f ${this.COMPOSE_FILE_LOCATION} stop ${service}`);
   }
 };
 
@@ -40,8 +51,5 @@ module.exports.restartPryvContainers = (services) => {
   }
 };
 module.exports.isContainer = (service) => {
-  const list_container = child_process.execSync(
-    `docker container ls -f "name=${service}" -q`
-  );
-  return list_container.length > 0;
+  return Object.keys(dockerCompose.services).includes(service);
 };
