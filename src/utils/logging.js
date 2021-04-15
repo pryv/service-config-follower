@@ -90,8 +90,8 @@ class LoggerImpl implements Logger {
   warn(msg: string, metaData?: {}) {
     this.log('warn', msg, metaData);
   }
-  error(msg: string, metaData?: {}) {
-    this.log('error', msg, metaData);
+  error(msg: string, metaData?: mixed = {}) {
+    this.log('error', msg + ':' + JSON.stringify(metaData,null,2));
   }
   
   log(level: string, message: string, metaData?: {}) {

@@ -18,6 +18,6 @@ app.fetchConfig()
     });
   })
   .catch((err) => {
-    logger.error(err);
+    logger.error(err, err);
     process.exit(1);
   });
