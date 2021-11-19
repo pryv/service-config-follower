@@ -1,5 +1,9 @@
 ## 1.0
 
+### 1.0.9
+
+- catch EEXISTS error that happens when a certain mounted folder is a symlink (see accord project)
+
 ### 1.0.8
 
 - expand error log

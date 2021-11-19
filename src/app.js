@@ -88,9 +88,16 @@ class Application {
       const fullPath = path.resolve(path.join(dataFolder, file.path));
       const directoryPath = path.dirname(fullPath);
 
-      // Create directory structure if it doesn't exist
-      if(! fs.existsSync(directoryPath)) {
-        fs.mkdirpSync(directoryPath, {recursive: true});
+      try {
+        if(! fs.existsSync(directoryPath)) {
+          fs.mkdirpSync(directoryPath, {recursive: true});
+        }
+      } catch (e) {
+        if (e.message.contains('EEXIST')) {
+          this.log('info', `Encountered error ${e.message} when trying to run mkdirp on ${directoryPath}`);
+        } else {
+          throw(e);
+        }
       }
 
       // Don't pull files in the data directory
