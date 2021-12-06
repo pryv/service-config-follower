@@ -1,8 +1,9 @@
-# Service-configuration
+# Service-config-follower
 
-A service for centralization of Pryv.io configuration and distribution among all Pryv.io components.
+Service that subscribes to and propagates Pryv.io component configuration changes from [service-config-leader](https://github.com/pryv/service-config-leader).
 
 Prerequisites: Node v8+, Yarn v1+
+
 
 ## How to?
 
