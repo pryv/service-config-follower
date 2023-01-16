@@ -1,6 +1,5 @@
 const nconfSettings = require('./settings');
 const request = require('superagent');
-const url = require('url');
 const fs = require('fs-extra'); // fs.mkdir doesn't include "recursive" option in node < 10 // See https://github.com/nodejs/node/issues/24698
 const path = require('path');
 const express = require('express');
@@ -14,7 +13,7 @@ class Application {
   settings;
   logger;
 
-  constructor(params) {
+  constructor (params) {
     this.settings = nconfSettings;
     this.express = this.setupExpressApp();
     if (params != null) {
@@ -25,7 +24,7 @@ class Application {
   /**
    * @returns {any}
    */
-  setupExpressApp() {
+  setupExpressApp () {
     const expressApp = express();
     expressApp.use(express.json());
     expressApp.use(middlewares.authorization(this.settings));
@@ -37,7 +36,7 @@ class Application {
   /**
    * @returns {Promise<string[]>}
    */
-  async fetchConfig() {
+  async fetchConfig () {
     const leaderUrl = this.settings.get('leader:url');
     const dataFolder = this.settings.get('paths:dataFolder');
     const fileList = await this.getFiles(leaderUrl);
@@ -51,11 +50,11 @@ class Application {
    * @param {string} leaderUrl
    * @returns {Promise<import("/Users/sim/Code/Pryv/dev/service-config-follower/app.ts-to-jsdoc").PryvFileList>}
    */
-  async getFiles(leaderUrl) {
+  async getFiles (leaderUrl) {
     if (leaderUrl == null) {
       throw new Error('Parameter leaderUrl is missing.');
     }
-    const leaderEndpoint = url.resolve(leaderUrl, 'conf');
+    const leaderEndpoint = new URL('conf', leaderUrl).href;
     const auth = this.settings.get('leader:auth');
     const res = await request.get(leaderEndpoint).set('Authorization', auth);
     const files = res.body.files;
@@ -70,7 +69,7 @@ class Application {
    * @param {string} dataFolder
    * @returns {Promise<string[]>}
    */
-  async writeFiles(fileList, dataFolder) {
+  async writeFiles (fileList, dataFolder) {
     if (dataFolder == null) {
       throw new Error('Parameter dataFolder is missing.');
     }
@@ -118,8 +117,9 @@ class Application {
     }
     return filesWritten;
   }
+
   /** @returns {void} */
-  log(level, message) {
+  log (level, message) {
     if (this.logger == null) return;
     this.logger[level](message);
   }

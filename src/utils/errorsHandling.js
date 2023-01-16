@@ -15,7 +15,7 @@ class ApiError extends Error {
    * @param {number} status
    * @param {string} msg
    */
-  constructor(status, msg) {
+  constructor (status, msg) {
     super(msg);
     this.httpStatus = status;
     this.message = msg;
@@ -24,7 +24,7 @@ class ApiError extends Error {
   /**
    * @returns {{ message: string; }}
    */
-  getPublicErrorData() {
+  getPublicErrorData () {
     return {
       message: this.message
     };
@@ -38,7 +38,7 @@ class ErrorsFactory {
    * @param {Error} error
    * @returns {ApiError}
    */
-  unexpectedError(error) {
+  unexpectedError (error) {
     const msg = error.message || 'Unexpected error.';
     return new ApiError(500, msg);
   }
@@ -47,7 +47,7 @@ class ErrorsFactory {
    * @param {string | null} message
    * @returns {ApiError}
    */
-  unauthorized(message) {
+  unauthorized (message) {
     const msg = message || 'Operation is not authorized.';
     return new ApiError(403, msg);
   }
@@ -56,7 +56,7 @@ class ErrorsFactory {
    * @param {string | null} message
    * @returns {ApiError}
    */
-  invalidParameter(message) {
+  invalidParameter (message) {
     const msg = message || 'Some of the provided parameters are invalid.';
     return new ApiError(400, msg);
   }
@@ -65,7 +65,7 @@ class ErrorsFactory {
    * @param {string} headerName
    * @returns {ApiError}
    */
-  missingHeader(headerName) {
+  missingHeader (headerName) {
     const msg = `Missing expected header "${headerName}".`;
     return new ApiError(400, msg);
   }

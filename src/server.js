@@ -2,7 +2,7 @@ const Application = require('./app');
 const logger = require('./utils/logging').getLogger('server');
 
 const app = new Application({
-  logger: logger
+  logger
 });
 const settings = app.settings;
 const port = settings.get('http:port');

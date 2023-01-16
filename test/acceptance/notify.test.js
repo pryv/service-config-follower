@@ -1,4 +1,3 @@
-/*global describe, it, before, after, beforeEach, afterEach */
 const assert = require('chai').assert;
 const sinon = require('sinon');
 const Application = require('../../src/app');
@@ -51,9 +50,11 @@ describe('POST /notify', function () {
       'just smth'
     );
   });
+
   after(function () {
     fs.unlinkSync(containersLifecycleHelper.COMPOSE_FILE_LOCATION);
   });
+
   describe('write to the disk', () => {
     beforeEach(() => {
       startContainers = sinon.stub(
@@ -63,12 +64,14 @@ describe('POST /notify', function () {
       stopContainer = sinon.stub(containersLifecycleHelper, 'stopContainers');
       stopContainer.returns();
     });
+
     afterEach(() => {
       sinon.assert.calledOnce(stopContainer);
       sinon.assert.calledOnce(startContainers);
       stopContainer.restore();
       startContainers.restore();
     });
+
     it('should write files to the disk', async () => {
       mockLeader(filesToWrite);
       const auth = settings.get('leader:auth');
@@ -88,6 +91,7 @@ describe('POST /notify', function () {
         assert.strictEqual(fileExist, true);
       }
     });
+
     it('should not write data files to the disk', async () => {
       mockLeader(filesToNotWrite);
       const auth = settings.get('leader:auth');
@@ -105,6 +109,7 @@ describe('POST /notify', function () {
       assert.strictEqual(fileExist, false);
     });
   });
+
   describe('restart containers', () => {
     beforeEach(() => {
       startContainers = sinon.stub(
@@ -115,28 +120,31 @@ describe('POST /notify', function () {
       stopContainer = sinon.stub(containersLifecycleHelper, 'stopContainers');
       stopContainer.returns();
     });
+
     afterEach(() => {
       sinon.assert.calledOnce(startContainers);
       startContainers.restore();
       stopContainer.restore();
       isContainer.restore();
     });
+
     it('should kill only one service', async () => {
       mockLeader(filesToWrite);
       isContainer.returns(true);
       const auth = settings.get('leader:auth');
-      const res = await request
+      await request
         .post('/notify')
         .set('Authorization', auth)
         .send({ services: [service1] });
       sinon.assert.calledOnce(stopContainer);
       sinon.assert.calledWith(stopContainer, service1);
     });
+
     it('should kill two services', async () => {
       mockLeader(filesToWrite);
       isContainer.returns(true);
       const auth = settings.get('leader:auth');
-      const res = await request
+      await request
         .post('/notify')
         .set('Authorization', auth)
         .send({ services: [service1, service2] });
@@ -144,29 +152,32 @@ describe('POST /notify', function () {
       sinon.assert.calledWith(stopContainer, service1);
       sinon.assert.calledWith(stopContainer, service2);
     });
+
     it('service is not a running container and should ignore it', async () => {
       mockLeader(filesToWrite);
       isContainer.returns(false);
       const auth = settings.get('leader:auth');
-      const res = await request
+      await request
         .post('/notify')
         .set('Authorization', auth)
         .send({ services: [serviceFake] });
       sinon.assert.notCalled(stopContainer);
     });
+
     it('should restart all containers', async () => {
       mockLeader(filesToWrite);
       isContainer.returns(true);
       const auth = settings.get('leader:auth');
-      const res = await request.post('/notify').set('Authorization', auth);
+      await request.post('/notify').set('Authorization', auth);
       sinon.assert.calledOnce(stopContainer);
     });
+
     it('should kill one service and ignore the other', async () => {
       mockLeader(filesToWrite);
       isContainer.withArgs(serviceFake).returns(false);
       isContainer.withArgs(service2).returns(true);
       const auth = settings.get('leader:auth');
-      const res = await request
+      await request
         .post('/notify')
         .set('Authorization', auth)
         .send({ services: [serviceFake, service2] });

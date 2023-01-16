@@ -5,7 +5,7 @@ module.exports = function (expressApp, app) {
   expressApp.post('/notify', (req, res, next) => {
     app.fetchConfig()
       .then((filesWritten) => {
-        let services = req.body.services;
+        const services = req.body.services;
         res.send({ files: filesWritten });
         containersLifecycleHelper.restartPryvContainers(services);
       })

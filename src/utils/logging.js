@@ -20,14 +20,14 @@ winston.addColors({
 const logsSettings = settings.get('logs');
 
 // (Console transport is present by default)
-let consoleSettings = winston['default'].transports.console;
+const consoleSettings = winston.default.transports.console;
 consoleSettings.silent = !logsSettings.console.active;
 if (logsSettings.console.active) {
   consoleSettings.level = logsSettings.console.level;
   consoleSettings.colorize = logsSettings.console.colorize;
   consoleSettings.timestamp = logsSettings.console.timestamp || true;
 }
-if (winston['default'].transports.file) {
+if (winston.default.transports.file) {
   // In production env it seems winston already includes a file transport...
   winston.remove(winston.transports.File);
 }
@@ -67,7 +67,7 @@ class LoggerImpl {
   winstonLogger = undefined;
 
   // Creates a new logger for the given component.
-  constructor(context, winstonLogger) {
+  constructor (context, winstonLogger) {
     this.messagePrefix = context ? '[' + context + '] ' : '';
     this.winstonLogger = winstonLogger;
   }
@@ -77,7 +77,7 @@ class LoggerImpl {
    * @param {{}} metaData
    * @returns {void}
    */
-  debug(msg, metaData) {
+  debug (msg, metaData) {
     this.log('debug', msg, metaData);
   }
 
@@ -86,7 +86,7 @@ class LoggerImpl {
    * @param {{}} metaData
    * @returns {void}
    */
-  info(msg, metaData) {
+  info (msg, metaData) {
     this.log('info', msg, metaData);
   }
 
@@ -95,7 +95,7 @@ class LoggerImpl {
    * @param {{}} metaData
    * @returns {void}
    */
-  warn(msg, metaData) {
+  warn (msg, metaData) {
     this.log('warn', msg, metaData);
   }
 
@@ -104,7 +104,7 @@ class LoggerImpl {
    * @param {unknown} metaData
    * @returns {void}
    */
-  error(msg, metaData = {}) {
+  error (msg, metaData = {}) {
     this.log('error', msg + ':' + JSON.stringify(metaData, null, 2));
   }
 
@@ -114,7 +114,7 @@ class LoggerImpl {
    * @param {{}} metaData
    * @returns {void}
    */
-  log(level, message, metaData) {
+  log (level, message, metaData) {
     const msg = this.messagePrefix + message;
     const meta = metaData ? JSON.stringify(metaData) : {};
     this.winstonLogger[level](msg, meta);

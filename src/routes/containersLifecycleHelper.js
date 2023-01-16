@@ -1,4 +1,4 @@
-const child_process = require('child_process');
+const childProcess = require('child_process');
 const fs = require('fs');
 const yaml = require('js-yaml');
 
@@ -16,14 +16,14 @@ try {
 
 module.exports.stopContainers = (service) => {
   if (service == null) {
-    child_process.execSync(`sudo docker-compose -f ${this.COMPOSE_FILE_LOCATION} down`);
+    childProcess.execSync(`sudo docker-compose -f ${this.COMPOSE_FILE_LOCATION} down`);
   } else {
-    child_process.execSync(`sudo docker-compose -f ${this.COMPOSE_FILE_LOCATION} stop ${service}`);
+    childProcess.execSync(`sudo docker-compose -f ${this.COMPOSE_FILE_LOCATION} stop ${service}`);
   }
 };
 
 module.exports.startContainers = () => {
-  child_process.execSync(`sudo docker-compose -f ${this.COMPOSE_FILE_LOCATION} up -d`);
+  childProcess.execSync(`sudo docker-compose -f ${this.COMPOSE_FILE_LOCATION} up -d`);
 };
 
 module.exports.restartPryvContainers = (services) => {
@@ -32,7 +32,7 @@ module.exports.restartPryvContainers = (services) => {
       if (services == null) {
         this.stopContainers();
       } else {
-        for (let service of services) {
+        for (const service of services) {
           if (this.isContainer(service)) {
             this.stopContainers(service);
           }
