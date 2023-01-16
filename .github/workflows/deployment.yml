@@ -1,4 +1,4 @@
-name: PrYv Config Follower deployment workflow
+name: Service Config-follower publish release
 
 on:
   push:
@@ -6,41 +6,36 @@ on:
       - '*'
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [12.13]
+        node-version: [16.4.1]
 
     steps:
-      - name: Download master branch
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+    - name: Install `just`
+      uses: extractions/setup-just@v1
 
-      - name: Install Node.js with version ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
+    - name: Download master branch
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
 
-      - name: Login to the docker containers registry
-        uses: azure/docker-login@v1
-        with:
-          login-server: ${{ secrets.REGISTRY_PRYV_SERVER }}
-          username: ${{ secrets.REGISTRY_PRYV_USERNAME }}
-          password: ${{ secrets.REGISTRY_PRYV_PASSWORD }}
+    - name: Install Node.js with version ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
 
-      - name: Download base image and change the tag
-        run: |
-          docker pull ${{ secrets.REGISTRY_PRYV_SERVER }}/pryvio/base:1.5.1
-          docker tag "${{ secrets.REGISTRY_PRYV_SERVER }}/pryvio/base:1.5.1" "pryvio/base:1.5.1"
+    - name: Install dependencies
+      run: just install-stable
 
-      - name: Npm packages installation
-        run: yarn install
+    - name: Login to the docker containers registry
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ secrets.REGISTRY_PRYV_SERVER }}
+        username: ${{ secrets.REGISTRY_PRYV_USERNAME }}
+        password: ${{ secrets.REGISTRY_PRYV_PASSWORD }}
 
-      - name: Tests
-        run: yarn test
-
-      - name: Build and publish image
-        run: ./build/build 
+    - name: Build and publish image
+      run: ./build/build

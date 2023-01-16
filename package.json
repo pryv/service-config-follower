@@ -6,8 +6,7 @@
   "author": "Loïc Correvon",
   "license": "MIT",
   "scripts": {
-    "start": "NODE_TLS_REJECT_UNAUTHORIZED='0' node src/server.js --config dev-config.json",
-    "test": "NODE_ENV=test node_modules/.bin/mocha --recursive test/"
+    "test": "echo 'This project doesn’t use npm scripts – enter `just` for the available development commands\n' && exit 1"
   },
   "dependencies": {
     "express": "^4.17.1",
