@@ -1,10 +1,8 @@
-// @flow
-
 const errorsFactory = require('../utils/errorsHandling').factory;
 
 // Middleware that enforces and verifies 'Authorization' header or 'auth' query parameter.
 // 
-module.exports = (settings: Object) => {
+module.exports = (settings: any) => {
   return (req: express$Request, res: express$Response, next: express$NextFunction) => {
     const auth = req.headers.authorization || req.query.auth;
     if (auth == null) {

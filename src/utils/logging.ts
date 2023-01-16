@@ -1,5 +1,3 @@
-// @flow
-
 const winston = require('winston');
 const settings = require('../settings');
 
@@ -50,7 +48,7 @@ const prefix = logsSettings.prefix;
 // Returns a logger singleton for the given component. Keeps track of initialized
 // loggers to only use one logger per component name.
 //
-module.exports.getLogger = function (componentName: string): Logger {
+module.exports.getLogger = function(componentName: string): Logger {
   const context = prefix + ':' + componentName;
   
   // Return memoized instance if we have produced it before.
@@ -65,10 +63,10 @@ module.exports.getLogger = function (componentName: string): Logger {
 };
 
 interface Logger {
-  debug(msg: string, metaData?: {}): void; 
-  info(msg: string, metaData?: {}): void;
-  warn(msg: string, metaData?: {}): void; 
-  error(msg: string, metaData?: {}): void; 
+  debug(msg: string, metaData?: {}): void
+  info(msg: string, metaData?: {}): void
+  warn(msg: string, metaData?: {}): void
+  error(msg: string, metaData?: {}): void
 }
 
 class LoggerImpl implements Logger {
@@ -90,7 +88,7 @@ class LoggerImpl implements Logger {
   warn(msg: string, metaData?: {}) {
     this.log('warn', msg, metaData);
   }
-  error(msg: string, metaData?: mixed = {}) {
+  error(msg: string, metaData: unknown = {}) {
     this.log('error', msg + ':' + JSON.stringify(metaData,null,2));
   }
   

@@ -1,5 +1,3 @@
-// @flow
-
 const errorsHandling = require('../utils/errorsHandling');
 const errorsFactory = errorsHandling.factory;
 const ApiError = errorsHandling.ApiError;

@@ -1,5 +1,3 @@
-// @flow
-
 const errors = require('./errors');
 const authorization = require('./authorization');
 

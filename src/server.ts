@@ -1,5 +1,3 @@
-// @flow
-
 const Application = require('./app');
 const logger = require('./utils/logging').getLogger('server');
 

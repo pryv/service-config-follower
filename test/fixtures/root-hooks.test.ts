@@ -1,5 +1,3 @@
-// @flow
-
 /*global before, after */
 
 // https://mochajs.org/#root-level-hooks

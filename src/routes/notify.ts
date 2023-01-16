@@ -1,5 +1,3 @@
-// @flow
-
 import type Application from '../app';
 const containersLifecycleHelper = require('./containersLifecycleHelper');
 

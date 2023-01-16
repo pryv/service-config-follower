@@ -1,5 +1,3 @@
-// @flow
-
 // Class that implements an Api Error.
 //
 class ApiError extends Error {
@@ -30,17 +28,17 @@ class ErrorsFactory {
     return new ApiError(500, msg);
   }
 
-  unauthorized(message: ?string) {
+  unauthorized(message?: string | null) {
     const msg = message || 'Operation is not authorized.';
     return new ApiError(403, msg);
   }
 
-  invalidParameter(message: ?string) {
+  invalidParameter(message?: string | null) {
     const msg = message || 'Some of the provided parameters are invalid.';
     return new ApiError(400, msg);
   }
 
-  missingHeader (headerName: string): ApiError {
+  missingHeader(headerName: string): ApiError {
     const msg = `Missing expected header "${headerName}".`;
     return new ApiError(400, msg);
   }

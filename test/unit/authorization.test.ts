@@ -1,5 +1,3 @@
-// @flow
-
 /*global describe, it, beforeEach */
 
 const settings = require('../../src/settings');

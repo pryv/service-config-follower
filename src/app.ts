@@ -1,4 +1,3 @@
-// @flow
 const nconfSettings = require('./settings');
 const request = require('superagent');
 const url = require('url');
@@ -12,17 +11,17 @@ export type PryvFilesObject = {
 };
 export type PryvFileList = Array<PryvFileItem>;
 export type PryvFileItem = {
-  path: string,
+  path: string
   content: string
 };
 
 class Application {
   express: express$Application;
-  settings: Object;
-  logger: Object;
+  settings: any;
+  logger: any;
 
   constructor(params: {
-    logger: Object,
+    logger: any
   }) {
     this.settings = nconfSettings;
     this.express = this.setupExpressApp();
@@ -44,7 +43,7 @@ class Application {
     return expressApp;
   }
 
-  async fetchConfig (): Promise<Array<string>> {
+  async fetchConfig(): Promise<Array<string>> {
     const leaderUrl = this.settings.get('leader:url');
     const dataFolder = this.settings.get('paths:dataFolder');
 

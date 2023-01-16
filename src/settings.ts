@@ -1,5 +1,3 @@
-// @flow
-
 const nconf = require('nconf');
 
 // 1. `process.env`
