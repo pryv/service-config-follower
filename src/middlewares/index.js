@@ -3,5 +3,5 @@ const authorization = require('./authorization');
 
 module.exports = {
   authorization: authorization,
-  errors: errors,
+  errors: errors
 };

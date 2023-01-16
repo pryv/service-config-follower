@@ -1,10 +1,8 @@
 const nock = require('nock');
 const settings = require('../../src/settings');
-import type { PryvFilesObject } from '../../src/app.js';
 
-module.exports = function(filesToWrite: PryvFilesObject): void {
+module.exports = function (filesToWrite) {
   const leader = settings.get('leader');
-
   nock(leader.url)
     .get('/conf')
     .reply(function () {
@@ -13,8 +11,7 @@ module.exports = function(filesToWrite: PryvFilesObject): void {
       if (headerValue === leader.auth) {
         status = 200;
         result = filesToWrite;
-      }
-      else {
+      } else {
         status = 403;
         result = 'Unauthorized.';
       }

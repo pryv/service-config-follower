@@ -9,7 +9,7 @@ try {
   dockerCompose = yaml.safeLoad(fs.readFileSync(this.COMPOSE_FILE_LOCATION, 'utf8'));
 } catch (e) {
   if (process.env.NODE_ENV !== 'test') {
-    console.error(`containersLifecycleHelper cannot load docker-compose file from ${this.COMPOSE_FILE_LOCATION}`)
+    console.error(`containersLifecycleHelper cannot load docker-compose file from ${this.COMPOSE_FILE_LOCATION}`);
     console.error(e);
   }
 }

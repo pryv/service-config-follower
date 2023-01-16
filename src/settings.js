@@ -8,7 +8,7 @@ nconf.env().argv();
 // 3. Values in `config.json`
 //
 const configFile = nconf.get('config') || 'dev-config.json';
-nconf.file({ file: configFile});
+nconf.file({ file: configFile });
 
 // 4. Any default values
 //
