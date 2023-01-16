@@ -1,10 +1,12 @@
 {
   "name": "service-config-follower",
   "version": "1.0.0",
+  "private": true,
   "description": "A micro-service who will fetch configurations from service-config-leader (on register), put them as file in the corresponding service folder and restart the service.",
+  "homepage": "https://pryv.com",
+  "license": "UNLICENSED",
+  "author": "Pryv S.A. <info@pryv.com> (https://pryv.com)",
   "main": "index.js",
-  "author": "Loïc Correvon",
-  "license": "MIT",
   "scripts": {
     "test": "echo 'This project doesn’t use npm scripts – enter `just` for the available development commands\n' && exit 1"
   },
@@ -24,6 +26,7 @@
     "fs-extra": "^8.1.0",
     "mocha": "^6.2.0",
     "nock": "^10.0.6",
+    "source-licenser": "^2.0.5",
     "supertest": "^4.0.2"
   }
 }
