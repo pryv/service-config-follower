@@ -1,10 +1,14 @@
-// @flow
-
+/**
+ * @license
+ * Copyright (C) 2019–2023 Pryv S.A. https://pryv.com - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ */
 const Application = require('./app');
 const logger = require('./utils/logging').getLogger('server');
 
 const app = new Application({
-  logger: logger
+  logger
 });
 const settings = app.settings;
 const port = settings.get('http:port');

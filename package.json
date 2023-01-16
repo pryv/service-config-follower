@@ -1,15 +1,14 @@
 {
   "name": "service-config-follower",
   "version": "1.0.0",
+  "private": true,
   "description": "A micro-service who will fetch configurations from service-config-leader (on register), put them as file in the corresponding service folder and restart the service.",
+  "homepage": "https://pryv.com",
+  "license": "UNLICENSED",
+  "author": "Pryv S.A. <info@pryv.com> (https://pryv.com)",
   "main": "index.js",
-  "author": "Loïc Correvon",
-  "license": "MIT",
   "scripts": {
-    "start": "NODE_TLS_REJECT_UNAUTHORIZED='0' node_modules/.bin/babel-node src/server.js --config dev-config.json",
-    "release": "node_modules/.bin/babel src/ -d dist/",
-    "test": "NODE_ENV=test node_modules/.bin/mocha --require babel-core/register --recursive test/",
-    "watch": "node_modules/.bin/babel --watch=./src --out-dir=dist/ --copy-files"
+    "test": "echo 'This project doesn’t use npm scripts – enter `just` for the available development commands\n' && exit 1"
   },
   "dependencies": {
     "express": "^4.17.1",
@@ -21,16 +20,13 @@
     "winston": "^2.3.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-eslint": "^10.0.2",
-    "babel-preset-flow": "^6.23.0",
     "chai": "^4.2.0",
-    "eslint": "^6.1.0",
-    "eslint-plugin-flowtype": "^3.12.1",
-    "flow-bin": "^0.103.0",
+    "eslint": "^8.32.0",
+    "eslint-config-semistandard": "^17.0.0",
     "fs-extra": "^8.1.0",
     "mocha": "^6.2.0",
     "nock": "^10.0.6",
+    "source-licenser": "^2.0.5",
     "supertest": "^4.0.2"
   }
 }

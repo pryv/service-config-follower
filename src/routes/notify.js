@@ -1,19 +1,20 @@
-// @flow
-
-import type Application from '../app';
+/**
+ * @license
+ * Copyright (C) 2019–2023 Pryv S.A. https://pryv.com - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ */
 const containersLifecycleHelper = require('./containersLifecycleHelper');
 
-
-module.exports = function (expressApp: express$Application, app: Application) {
-
+module.exports = function (expressApp, app) {
   // POST /notify: receives notifications about configuration changes and fetch them
-  expressApp.post('/notify', (req: express$Request, res: express$Response, next: express$NextFunction) => {
+  expressApp.post('/notify', (req, res, next) => {
     app.fetchConfig()
       .then((filesWritten) => {
-        let services = req.body.services;
+        const services = req.body.services;
         res.send({ files: filesWritten });
         containersLifecycleHelper.restartPryvContainers(services);
       })
       .catch(next);
   });
- };
+};

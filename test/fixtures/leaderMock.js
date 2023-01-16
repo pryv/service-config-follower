@@ -1,12 +1,14 @@
-// @flow
-
+/**
+ * @license
+ * Copyright (C) 2019–2023 Pryv S.A. https://pryv.com - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ */
 const nock = require('nock');
 const settings = require('../../src/settings');
-import type { PryvFilesObject } from '../../src/app.js';
 
-module.exports = function (filesToWrite: PryvFilesObject): void {
+module.exports = function (filesToWrite) {
   const leader = settings.get('leader');
-
   nock(leader.url)
     .get('/conf')
     .reply(function () {
@@ -15,8 +17,7 @@ module.exports = function (filesToWrite: PryvFilesObject): void {
       if (headerValue === leader.auth) {
         status = 200;
         result = filesToWrite;
-      }
-      else {
+      } else {
         status = 403;
         result = 'Unauthorized.';
       }
