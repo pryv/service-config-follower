@@ -8,11 +8,9 @@ node_modules/
 **/profiling-output.txt
 **/v8.log
 yarn-error.log
-/flow-coverage/
 /out
 coverage/
 .nyc_output/
-dist
 build/build_tag
 build/release.tar
 test_results/

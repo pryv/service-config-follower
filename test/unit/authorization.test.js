@@ -13,19 +13,16 @@ describe('Authorization middleware', function () {
   it('fails if auth key is missing', async () => {
     const expectedErrorMsg =
       "Missing 'Authorization' header or 'auth' query parameter.";
-    // FLOW: mocking req, res
     authMiddleware(req, res, expectAPIError(expectedErrorMsg, 403));
   });
   it('fails if auth key is invalid', async () => {
     const expectedErrorMsg = 'Invalid authorization key.';
     req.headers.authorization = 'unauthorized';
-    // FLOW: mocking req, res
     authMiddleware(req, res, expectAPIError(expectedErrorMsg, 403));
   });
   it('succeeds if auth key is valid', async () => {
     const validAuth = settings.get('leader:auth');
     req.headers.authorization = validAuth;
-    // FLOW: mocking req, res
     authMiddleware(req, res, (err) => {
       assert.isUndefined(err);
     });
@@ -39,7 +36,6 @@ function expectAPIError(msg, status) {
   return (err) => {
     assert.isNotNull(err);
     assert.isTrue(err instanceof ApiError);
-    // FLOW: err is not null
     const [errMsg, errStatus] = [err.message, err.httpStatus];
     assert.strictEqual(errMsg, msg);
     assert.strictEqual(errStatus, status);
