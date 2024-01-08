@@ -1,6 +1,6 @@
 {
   "name": "service-config-follower",
-  "version": "1.0.0",
+  "version": "1.0.10",
   "private": true,
   "description": "A micro-service who will fetch configurations from service-config-leader (on register), put them as file in the corresponding service folder and restart the service.",
   "homepage": "https://pryv.com",

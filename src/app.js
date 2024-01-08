@@ -89,7 +89,11 @@ class Application {
           fs.mkdirpSync(directoryPath, { recursive: true });
         }
       } catch (e) {
-        if (e.message.contains('EEXIST')) {
+        this.log(
+          'info',
+          `Encountered error when trying to run mkdirp on ${directoryPath}`
+        );
+        if (e.message?.contains('EEXIST')) {
           this.log(
             'info',
             `Encountered error ${e.message} when trying to run mkdirp on ${directoryPath}`
