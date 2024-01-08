@@ -93,7 +93,7 @@ class Application {
           'info',
           `Encountered error when trying to run mkdirp on ${directoryPath}`
         );
-        if (e.message?.contains('EEXIST')) {
+        if (e.message && e.message.contains('EEXIST')) {
           this.log(
             'info',
             `Encountered error ${e.message} when trying to run mkdirp on ${directoryPath}`
