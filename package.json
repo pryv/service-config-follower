@@ -4,8 +4,8 @@
   "private": true,
   "description": "A micro-service who will fetch configurations from service-config-leader (on register), put them as file in the corresponding service folder and restart the service.",
   "homepage": "https://pryv.com",
-  "license": "UNLICENSED",
-  "author": "Pryv S.A. <info@pryv.com> (https://pryv.com)",
+  "license": "BSD-3-Clause",
+  "author": "Pryv <info@pryv.com> (https://pryv.com)",
   "main": "index.js",
   "scripts": {
     "test": "echo 'This project doesn’t use npm scripts – enter `just` for the available development commands\n' && exit 1"

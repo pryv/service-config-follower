@@ -25,4 +25,4 @@ just test [...params]
 
 ## License
 
-[UNLICENSED](LICENSE)
+[BSD-3-Clause](LICENSE)
