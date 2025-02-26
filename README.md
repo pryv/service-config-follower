@@ -22,6 +22,11 @@ just test [...params]
 - Extra parameters at the end are passed on to [Mocha](https://mochajs.org/) (default settings are defined in `.mocharc.js`)
 - Replace `test` with `test-detailed`, `test-debug`, `test-cover` for common presets
 
+## Contributing
+
+### Todo 
+- release github workflow has been archived in `archives` it needs to rewritten to publish on dockerHub
+
 
 ## License
 

@@ -85,6 +85,6 @@ substitutions:
   AUTHOR_NAME: "Pryv"
   AUTHOR_EMAIL: info@pryv.com
   AUTHOR_WEB: https://pryv.com
-  DESCRIPTION: "This package is part of Pryv.io, a Pryv S.A. software"
+  DESCRIPTION: "This package is part of Pryv.io software"
   HOMEPAGE: https://pryv.com
   SPDX: BSD-3-Clause
