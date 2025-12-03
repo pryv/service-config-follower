@@ -9,12 +9,13 @@ SCRIPT_FOLDER=$(cd $(dirname "$0"); pwd)
 $SCRIPT_FOLDER/scripts/build_name
 
 version=$(cat build_tag)
+version=1.0.9
 
 # Copy the release version to the project root, so we can later display it to
 # clients:
 cp ./build_tag ../.api-version
 
-host="eu.gcr.io"
+host="docker.io"
 
 # Create a release.tar that contains all the code. 
  tar cf $SCRIPT_FOLDER/config-follower/release.tar \

@@ -25,6 +25,7 @@ just test [...params]
 ## Contributing
 
 ### Todo 
+- update privio/base:1.5.1 to latest
 - release github workflow has been archived in `archives` it needs to rewritten to publish on dockerHub
 
 
