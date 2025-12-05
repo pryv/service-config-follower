@@ -14,3 +14,4 @@ build/build_tag
 build/release.tar
 test_results/
 .vscode/
+*release.tar
